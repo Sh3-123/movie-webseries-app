@@ -3,8 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
-// const pool = require('../db'); // Replaced by localDB
-const localDB = require('../utils/localDB');
+const pool = require('../db');
 
 // @route   POST api/auth/register
 // @desc    Register user
@@ -28,9 +27,9 @@ router.post(
 
         try {
             // Check if user exists
-            const existingUser = localDB.findUserByEmail(email);
+            const [users] = await pool.query('SELECT * FROM app_users WHERE email = ?', [email]);
 
-            if (existingUser) {
+            if (users.length > 0) {
                 return res.status(400).json({ msg: 'User already exists' });
             }
 
@@ -38,13 +37,18 @@ router.post(
             const hashedPassword = await bcrypt.hash(password, salt);
 
             // Create new user
-            const newUser = localDB.createUser({
+            const [result] = await pool.query(
+                'INSERT INTO app_users (firstName, lastName, email, phone, password) VALUES (?, ?, ?, ?, ?)',
+                [firstName, lastName, email, phone, hashedPassword]
+            );
+
+            const newUser = {
+                id: result.insertId,
                 firstName,
                 lastName,
                 email,
-                phone,
-                password: hashedPassword
-            });
+                phone
+            };
 
             const payload = {
                 user: {
@@ -87,7 +91,8 @@ router.post(
 
         try {
             // Find user by email
-            const user = localDB.findUserByEmail(email);
+            const [users] = await pool.query('SELECT * FROM app_users WHERE email = ?', [email]);
+            const user = users[0];
 
             if (!user) {
                 return res.status(400).json({ msg: 'Invalid Credentials' });
