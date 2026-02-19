@@ -2,7 +2,7 @@
     "name": "movie-webseries-app",
     "version": "1.0.0",
     "scripts": {
-        "build": "cd client && npm install && npm run build && cd ../server && npm install"
+        "build": "cd client && npm install && npm run build && cd .. && mkdir -p public && cp -r client/dist/* public/ && cd server && npm install"
     },
     "dependencies": {},
     "devDependencies": {}
