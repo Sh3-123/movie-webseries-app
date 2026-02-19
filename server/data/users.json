@@ -1,0 +1,18 @@
+[
+  {
+    "id": "mlt9i1qdocweqwnrsl",
+    "firstName": "Browser",
+    "lastName": "Test",
+    "email": "browser@test.com",
+    "phone": "1234567890",
+    "password": "$2b$10$GnCNU1gW4u8YcmFyVCqUfOESXxV3RAphk4xhSIiwd2aaEAX97F5mu"
+  },
+  {
+    "id": "mltd5ndnp2d2bkea9rk",
+    "firstName": "testabk",
+    "lastName": "jjnjwas",
+    "email": "t12@gmail.com",
+    "phone": "4646546464",
+    "password": "$2b$10$oZghfSykrEeqc9uYFypsZ.P4ltE4Cge0yHi8/PsX2zZQe39v2mONS"
+  }
+]
